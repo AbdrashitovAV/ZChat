@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="ZChat.View.SettingsWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ZChat.View"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <!--            <Setter Property="Margin" Value="5"/>-->
+            <!--            <Setter Property="Validation.ErrorTemplate">-->
+            <!--                <Setter.Value>-->
+            <!--                    <ControlTemplate>-->
+            <!--                        <StackPanel>-->
+            <!--                            <AdornedElementPlaceholder x:Name="textBox"/>-->
+            <!--                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="10"/>-->
+            <!--                        </StackPanel>-->
+            <!--                    </ControlTemplate>-->
+            <!--                </Setter.Value>-->
+            <!--            </Setter>-->
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
+                                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="TextBlock" x:Key="BaseTextBlockStyle">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+
+
+        </Style>
+    </UserControl.Resources>
+
+
+    <Border Margin="5" Padding="1"
+            BorderBrush="DarkGray" BorderThickness="2"
+            SnapsToDevicePixels ="True">
+        <StackPanel Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="Username:" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBox Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="Hostname:" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBox Text="{Binding Hostname, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <TextBlock Text="Port" Style="{StaticResource BaseTextBlockStyle}"/>
+                <TextBox Text="{Binding Port, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <Button Content="OK" 
+                    Width="80" Height="20" Margin="5,5,5,0" 
+                    HorizontalAlignment="Center" 
+                    Command="{Binding DataContext.ApplySettingsCommand, RelativeSource={RelativeSource AncestorType = Window, Mode=FindAncestor}}"/>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFStuff", "WPFStuff\WPFStuff.csproj", "{CDEAB540-D54F-4AA0-A321-BC0A2E1D2A36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat", "ZChat\ZChat.csproj", "{ADC5218B-2620-4E0E-B899-F61BC427EE7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Client.Communcation", "ZChat.Client.Communcation\ZChat.Client.Communcation.csproj", "{8AB01525-4F72-4149-B8BA-E94A84E83E23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Shared", "ZChat.Shared\ZChat.Shared.csproj", "{DB31540C-4CA3-4CC7-AD85-9D1AD2D1F1E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Server.SignalR", "ZChat.Server.SignalR\ZChat.Server.SignalR.csproj", "{CA6F4D65-31B2-4F20-930E-BF76A2B020A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Client.SignalR", "ZChat.Client.SignalR\ZChat.Client.SignalR.csproj", "{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDEAB540-D54F-4AA0-A321-BC0A2E1D2A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDEAB540-D54F-4AA0-A321-BC0A2E1D2A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDEAB540-D54F-4AA0-A321-BC0A2E1D2A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDEAB540-D54F-4AA0-A321-BC0A2E1D2A36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC5218B-2620-4E0E-B899-F61BC427EE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC5218B-2620-4E0E-B899-F61BC427EE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC5218B-2620-4E0E-B899-F61BC427EE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC5218B-2620-4E0E-B899-F61BC427EE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AB01525-4F72-4149-B8BA-E94A84E83E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB01525-4F72-4149-B8BA-E94A84E83E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB01525-4F72-4149-B8BA-E94A84E83E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB01525-4F72-4149-B8BA-E94A84E83E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB31540C-4CA3-4CC7-AD85-9D1AD2D1F1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB31540C-4CA3-4CC7-AD85-9D1AD2D1F1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB31540C-4CA3-4CC7-AD85-9D1AD2D1F1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB31540C-4CA3-4CC7-AD85-9D1AD2D1F1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA6F4D65-31B2-4F20-930E-BF76A2B020A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA6F4D65-31B2-4F20-930E-BF76A2B020A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA6F4D65-31B2-4F20-930E-BF76A2B020A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA6F4D65-31B2-4F20-930E-BF76A2B020A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
