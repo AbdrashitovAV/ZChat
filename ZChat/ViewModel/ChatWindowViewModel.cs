@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using Prism.Commands;
 using WPFStuff;
 using ZChat.Client.Communcation;
+using ZChat.Client.Communcation.Event;
 using ZChat.Shared;
 
 namespace ZChat.ViewModel
@@ -16,7 +17,7 @@ namespace ZChat.ViewModel
     {
         private readonly IConnectionManager _connectionManager;
         private Dispatcher _uiDispatcher;
-        private readonly string _username;
+        private string _username;
 
         private Dictionary<string, ObservableCollection<Message>> _allMessages = new Dictionary<string, ObservableCollection<Message>>();
 
@@ -63,7 +64,7 @@ namespace ZChat.ViewModel
             get { return _messages; }
             set { Set(() => Messages, ref _messages, value); }
         }
-        
+
         #region Message sending
 
         private bool _isSendingMessage;
@@ -99,36 +100,43 @@ namespace ZChat.ViewModel
 
         #endregion
 
-        public ChatWindowViewModel(IConnectionManager connectionManager, Dispatcher uiDispatcher, string username, ConnectionData connectionData)
+        public ChatWindowViewModel(IConnectionManager connectionManager, Dispatcher uiDispatcher)
         {
             _connectionManager = connectionManager;
             _uiDispatcher = uiDispatcher;
-            _username = username;
 
             _connectionManager.MessageRecieved += HandleMessageRecieved;
+            _connectionManager.ConnectedToServer += HandleConnectedToServer;
+            _connectionManager.DisconnectedFromServer += HandleDisconnectedFromServer;
 
             SendMessageCommand = new DelegateCommand(SendMessage, () => IsMessagingAllowed);
-
-            InitializeUsersLists(connectionData.UsersInChat);
         }
 
         private void HandleDisconnectedFromServer(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _uiDispatcher.Invoke(() =>
+            {
+                Users = new ObservableCollection<UserViewModel>();
+                IsMessagingAllowed = false;
+            });
         }
 
-        private void HandleConnectedToServer(object sender, EventArgs e)
+        private void HandleConnectedToServer(object sender, ConnectedToServerEventArgs eventArgs)
         {
-            throw new NotImplementedException();
+            _username = eventArgs.Username;
+
+            InitializeUserProperties(eventArgs.ConnectionData.UsersInChat);
         }
 
-        private void InitializeUsersLists(IEnumerable<string> usersInChat)
+        private void InitializeUserProperties(IEnumerable<string> usersInChat)
         {
             Users = new ObservableCollection<UserViewModel>(usersInChat.Select(username => new UserViewModel(username))) { new UserViewModel(Constants.EveryoneId) };
 
-            foreach (var uservm in Users)
+            //TODO: we should clear message history when connecting to new server
+            foreach (var uservm in _users)
             {
-                _allMessages.Add(uservm.Username, new ObservableCollection<Message>());
+                if (!_allMessages.ContainsKey(uservm.Username))
+                    _allMessages.Add(uservm.Username, new ObservableCollection<Message>());
             }
 
             SelectedUser = Users.Single(x => x.Username == Constants.EveryoneId);

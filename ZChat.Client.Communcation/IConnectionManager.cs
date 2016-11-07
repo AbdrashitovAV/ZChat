@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ZChat.Client.Communcation.Event;
 using ZChat.Shared;
 
 namespace ZChat.Client.Communcation
@@ -7,7 +8,7 @@ namespace ZChat.Client.Communcation
     public interface IConnectionManager
     {
         event EventHandler<Message> MessageRecieved;
-        event EventHandler ConnectedToServer;
+        event EventHandler<ConnectedToServerEventArgs> ConnectedToServer;
         event EventHandler DisconnectedFromServer;
 
         bool IsConnecting { get; }

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Client;
+using ZChat.Client.Communcation.Event;
 using ZChat.Shared;
 
 namespace ZChat.Client.Communcation
@@ -13,7 +14,7 @@ namespace ZChat.Client.Communcation
         private HubConnection _hubConnection;
 
         public event EventHandler<Message> MessageRecieved;
-        public event EventHandler ConnectedToServer;
+        public event EventHandler<ConnectedToServerEventArgs> ConnectedToServer;
         public event EventHandler DisconnectedFromServer;
 
         public bool IsConnecting { get; private set; } = false;
@@ -34,7 +35,7 @@ namespace ZChat.Client.Communcation
 
                 IsConnecting = true;
 
-                _hubConnection = GetHubConnection(hostname, port);
+                SetHubConnection(hostname, port);
                 await _hubConnection.Start();
             }
             catch (HttpRequestException e)
@@ -54,7 +55,11 @@ namespace ZChat.Client.Communcation
             IsConnecting = false;
 
             if (task.Result.IsSucessful)
+            {
                 IsConnected = true;
+
+                ConnectedToServer?.Invoke(this, new ConnectedToServerEventArgs() { Username = username, ConnectionData = task.Result.Data });
+            }
             else
             {
                 ClearConnection();
@@ -74,28 +79,32 @@ namespace ZChat.Client.Communcation
         public void CloseConnection()
         {
             IsConnected = false;
-
             ClearConnection();
         }
 
         private void ClearConnection()
         {
             _hubProxy = null;
-            _hubConnection.Dispose();
+            _hubConnection?.Dispose();
             _hubConnection = null;
         }
 
 
-        private HubConnection GetHubConnection(string hostname, int port)
+        private void SetHubConnection(string hostname, int port)
         {
-            var hubConnection = new HubConnection($"http://{hostname}:{port}/");
+            _hubConnection = new HubConnection($"http://{hostname}:{port}/");
 
-            _hubProxy = hubConnection.CreateHubProxy("ChatHub");
+            _hubConnection.Error += q =>
+            {
+                IsConnected = false;
+                ClearConnection();
+                DisconnectedFromServer?.Invoke(this, null);
+            };
 
+            _hubProxy = _hubConnection.CreateHubProxy("ChatHub");
             _hubProxy.On<Message>("MessageFromServer", message => { MessageRecieved?.Invoke(this, message); });
-
+            
             ServicePointManager.DefaultConnectionLimit = 10;
-            return hubConnection;
         }
     }
 }

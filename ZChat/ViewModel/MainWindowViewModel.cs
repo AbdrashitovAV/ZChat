@@ -15,21 +15,33 @@ namespace ZChat.ViewModel
         public SettingsViewModel SettingsViewModel { get; set; }
         public ChatWindowViewModel ChatWindowViewModel { get; set; }
 
-        public bool AreSettingsSet { get; set; } = false;
+        private bool _areSettingsSet = false;
+        public bool AreSettingsSet
+        {
+            get { return _areSettingsSet; }
+            set { Set(() => AreSettingsSet, ref _areSettingsSet, value); }
+        }
 
         public DelegateCommand ApplySettingsCommand { get; set; }
         public DelegateCommand CloseWindowCommand { get; set; }
 
         public MainWindowViewModel()
         {
+            _uiDispatcher = Dispatcher.CurrentDispatcher; // make it nicer
             _connectionManager = new SignalRConnectionManager();
+            _connectionManager.DisconnectedFromServer += (q, w) =>
+            {
+                MessageBox.Show("Disconnected from server. Please specify connection settings again", "Connection error");
+                AreSettingsSet = false;
+            };
 
             SettingsViewModel = new SettingsViewModel();
+            ChatWindowViewModel = new ChatWindowViewModel(_connectionManager, _uiDispatcher);
+
             ApplySettingsCommand = new DelegateCommand(ApplySettings, ApplySettingsCanExecute);
             CloseWindowCommand = new DelegateCommand(Close);
+
             ApplicationTitle = "ZChat";
-            _uiDispatcher = Dispatcher.CurrentDispatcher; // make it nicer
-            
 
             //todo: make initialization from events from connection manager when disconnect/reconnect functionality will be done
             SettingsViewModel.ValidStateChanged += (sender, args) => { ApplySettingsCommand.RaiseCanExecuteChanged(); };
@@ -54,15 +66,11 @@ namespace ZChat.ViewModel
             if (connectionResult.IsSucessful)
             {
                 var connectionData = connectionResult.Data;
-                
-                ChatWindowViewModel = new ChatWindowViewModel(_connectionManager, _uiDispatcher, SettingsViewModel.Username, connectionData);
-                RaisePropertyChanged(() => ChatWindowViewModel);
 
                 ApplicationTitle = $"ZChat | {SettingsViewModel.Username} at {connectionData.ServerName} ({SettingsViewModel.Hostname}:{SettingsViewModel.Port})";
                 RaisePropertyChanged(() => ApplicationTitle);
 
                 AreSettingsSet = true;
-                RaisePropertyChanged(() => AreSettingsSet);
             }
             else
             {

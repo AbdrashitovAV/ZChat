@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ZChat.Client.Communcation.Event;
 using ZChat.Shared;
 using Timer = System.Timers.Timer;
 
@@ -19,7 +20,7 @@ namespace ZChat.Client.Communcation
         public bool IsConnected { get; private set; }
 
         public event EventHandler<Message> MessageRecieved;
-        public event EventHandler ConnectedToServer;
+        public event EventHandler<ConnectedToServerEventArgs> ConnectedToServer;
         public event EventHandler DisconnectedFromServer;
 
         public TestConnectionManager()
