@@ -15,6 +15,9 @@ namespace ZChat.ViewModel
 {
     internal class ChatWindowViewModel : PropertyChangedImplementation
     {
+        private object _userLock = new object();
+        private object _messageLock = new object();
+
         private readonly IConnectionManager _connectionManager;
         private Dispatcher _uiDispatcher;
         private string _username;
@@ -116,8 +119,11 @@ namespace ZChat.ViewModel
         {
             _uiDispatcher.Invoke(() =>
             {
-                Users = new ObservableCollection<UserViewModel>();
-                IsMessagingAllowed = false;
+                lock (_userLock)
+                {
+                    Users = new ObservableCollection<UserViewModel>();
+                    IsMessagingAllowed = false;
+                }
             });
         }
 
@@ -163,7 +169,11 @@ namespace ZChat.ViewModel
             await sendMessageTask;
             if (sendMessageTask.Result.IsSucessful)
             {
-                _allMessages[message.Receiver].Add(message);
+
+                lock (_messageLock)
+                {
+                    _allMessages[message.Receiver].Add(message);
+                }
                 MessageText = String.Empty;
             };
 
@@ -174,31 +184,6 @@ namespace ZChat.ViewModel
             });
         }
 
-        private void UserConnected(Message message, string newUser)
-        {
-            if (!_allMessages.ContainsKey(newUser))
-                _allMessages.Add(newUser, new ObservableCollection<Message>());
-
-            _uiDispatcher.Invoke(() =>
-            {
-                _allMessages[newUser].Add(message);
-                _allMessages[Constants.EveryoneId].Add(message);
-                Users.Add(new UserViewModel(newUser));
-            });
-        }
-
-        private void UserDisconnected(Message message, string user)
-        {
-            _uiDispatcher.Invoke(() =>
-            {
-                _allMessages[user].Add(message);
-                _allMessages[Constants.EveryoneId].Add(message);
-
-                var userToDelete = Users.SingleOrDefault(userViewModel => userViewModel.Username == user);
-                if (userToDelete != null)
-                    Users.Remove(userToDelete);
-            });
-        }
 
         //TODO - выделить логику обработки, хранения и загрузки сообщений в отдельный класс
         private void HandleMessageRecieved(object sender, Message message)
@@ -213,10 +198,16 @@ namespace ZChat.ViewModel
 
                 var usernameToUpdate = message.Receiver == Constants.EveryoneId ? Constants.EveryoneId : message.Sender;
 
-                if (_selectedUser.Username != usernameToUpdate)
-                    Users.First(x => x.Username == usernameToUpdate).HaveNewMessage = true;
+                lock (_userLock)
+                {
+                    if (_selectedUser.Username != usernameToUpdate)
+                        Users.First(x => x.Username == usernameToUpdate).HaveNewMessage = true;
+                }
 
-                _allMessages[usernameToUpdate].Add(message);
+                lock (_messageLock)
+                {
+                    _allMessages[usernameToUpdate].Add(message);
+                }
             });
         }
 
@@ -238,6 +229,48 @@ namespace ZChat.ViewModel
                         return;
                 }
             }
+        }
+        
+        private void UserConnected(Message message, string newUser)
+        {
+            lock (_messageLock)
+            {
+                if (!_allMessages.ContainsKey(newUser))
+                    _allMessages.Add(newUser, new ObservableCollection<Message>());
+            }
+
+            _uiDispatcher.Invoke(() =>
+            {
+                lock (_messageLock)
+                {
+                    _allMessages[newUser].Add(message);
+                    _allMessages[Constants.EveryoneId].Add(message);
+                }
+
+                lock (_userLock)
+                {
+                    Users.Add(new UserViewModel(newUser));
+                }
+            });
+        }
+
+        private void UserDisconnected(Message message, string user)
+        {
+            _uiDispatcher.Invoke(() =>
+            {
+                lock (_messageLock)
+                {
+                    _allMessages[user].Add(message);
+                    _allMessages[Constants.EveryoneId].Add(message);
+                }
+
+                lock (_userLock)
+                {
+                    var userToDelete = Users.SingleOrDefault(userViewModel => userViewModel.Username == user);
+                    if (userToDelete != null)
+                        Users.Remove(userToDelete);
+                }
+            });
         }
     }
 }

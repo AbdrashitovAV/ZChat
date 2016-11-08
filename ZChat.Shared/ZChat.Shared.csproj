@@ -49,8 +49,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="ServiceDataResult.cs" />
     <Compile Include="ConnectionData.cs" />
-    <Compile Include="Contracts\IChatService.cs" />
-    <Compile Include="Contracts\IChatServiceCallback.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceResult.cs" />
