@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using log4net;
 using Microsoft.AspNet.SignalR;
-using ZChat.Server.SignalR.Hub;
+using ZChat.Server.Logic.Hub;
 using ZChat.Shared;
 
-namespace ZChat.Server.SignalR
+namespace ZChat.Server.Logic
 {
     //TODO: исправить вызовы hub.client на специфицеские id из юзеров. Скорее всего это можно сделать через группы в signalR
-    internal class SignalRServerConnectionManager : ISignalRServerConnectionManager
+    public class SignalRServerConnectionManager : ISignalRServerConnectionManager
     {
         private object _userLock = new object();
 

@@ -2,7 +2,8 @@
 using log4net;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Hosting;
-using ZChat.Server.SignalR.Hub;
+using ZChat.Server.Logic.Hub;
+using ZChat.Server.Logic;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace ZChat.Server.SignalR

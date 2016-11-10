@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Server.SignalR", "ZCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Client.SignalR", "ZChat.Client.SignalR\ZChat.Client.SignalR.csproj", "{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZChat.Server.Logic", "ZChat.Server.Logic\ZChat.Server.Logic.csproj", "{256448E5-08F7-4066-AABD-789540314B87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C9989E6-D0BC-4878-B7DD-9AD5032448EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256448E5-08F7-4066-AABD-789540314B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256448E5-08F7-4066-AABD-789540314B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256448E5-08F7-4066-AABD-789540314B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256448E5-08F7-4066-AABD-789540314B87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

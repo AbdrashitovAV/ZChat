@@ -1,9 +1,8 @@
-﻿using System;
-using System.Management.Instrumentation;
+﻿using System.Management.Instrumentation;
 using System.Threading.Tasks;
 using ZChat.Shared;
 
-namespace ZChat.Server.SignalR.Hub
+namespace ZChat.Server.Logic.Hub
 {
     public class ChatHub : Microsoft.AspNet.SignalR.Hub
     {

@@ -1,6 +1,6 @@
 ﻿using ZChat.Shared;
 
-namespace ZChat.Server.SignalR
+namespace ZChat.Server.Logic
 {
     public interface ISignalRServerConnectionManager
     {
