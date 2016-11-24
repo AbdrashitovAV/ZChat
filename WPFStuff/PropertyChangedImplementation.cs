@@ -12,12 +12,16 @@ namespace WPFStuff
 
         protected void RaisePropertyChanged<T>(Expression<Func<T>> raiser)
         {
-            var e = PropertyChanged;
-            if (e != null)
-            {
-                var propName = ((MemberExpression)raiser.Body).Member.Name;
-                e(this, new PropertyChangedEventArgs(propName));
-            }
+            //TODO: remove some day
+            //var e = PropertyChanged;
+            //if (e != null)
+            //{
+            //    var propName = ((MemberExpression)raiser.Body).Member.Name;
+            //    e(this, new PropertyChangedEventArgs(propName));
+            //}
+
+            var propName = ((MemberExpression)raiser.Body).Member.Name;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         protected bool Set<T>( Expression<Func<T>> propertyExpression,

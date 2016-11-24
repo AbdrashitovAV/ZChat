@@ -15,7 +15,7 @@ namespace WPFStuff.BasicValidation
         public bool IsValid => !_errors.Any();
         public string Error { get; }
 
-        public string this[string columnName]
+        public virtual string this[string columnName]
         {
             get
             {
@@ -32,7 +32,7 @@ namespace WPFStuff.BasicValidation
             }
         }
 
-        protected virtual string ValidateProperty(string columnName)
+        protected virtual string ValidateProperty(string propertyName)
         {
             return String.Empty;
         }

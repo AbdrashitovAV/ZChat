@@ -30,11 +30,11 @@ namespace ZChat.ViewModel
             set { Set(() => Port, ref _port, value); }
         }
 
-        protected sealed override string ValidateProperty(string columnName)
+        protected sealed override string ValidateProperty(string propertyName)
         {
             var error = String.Empty;
 
-            switch (columnName)
+            switch (propertyName)
             {
                 case nameof(Hostname):
                     error = ValidateHostname();
@@ -49,7 +49,7 @@ namespace ZChat.ViewModel
                     break;
 
                 default:
-                    error = base.ValidateProperty(columnName);
+                    error = base.ValidateProperty(propertyName);
                     break;
             }
 

@@ -13,6 +13,7 @@ namespace ZChat.Converter
             if (message == null)
                 return String.Empty;
 
+            //TODO: use string builder here
             string messageString;
             if (message.Sender != Constants.ServerId)
                 messageString = $"[ {message.TimeStamp.ToLongTimeString()} ] <{message.Sender}> {message.Content}";
