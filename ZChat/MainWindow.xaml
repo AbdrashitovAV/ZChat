@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:view="clr-namespace:ZChat.View"
-        xmlns:dataTemplateSelector="clr-namespace:WCFChat.DataTemplateSelector"
+        xmlns:dataTemplateSelector="clr-namespace:ZChat.DataTemplateSelector"
         mc:Ignorable="d"
         Title="{Binding ApplicationTitle, UpdateSourceTrigger=PropertyChanged}" Height="750" Width="1000" x:Name="mmWindow">
     <i:Interaction.Triggers>

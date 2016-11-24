@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
-using WPFStuff;
+using WPFStuff.BasicValidation;
 
 namespace ZChat.ViewModel
 {
-    internal class SettingsViewModel : PropertyChangedImplementation, IDataErrorInfo
+    internal class SettingsViewModel : BasicValidatableViewModel
     {
-        private Dictionary<string, string> _errors = new Dictionary<string, string>();
-
-        public event EventHandler ValidStateChanged;
-
-        private bool _previousValidationState;
-        public bool IsValid => !_errors.Any();
 
         private string _username;
         public string Username
@@ -38,38 +30,30 @@ namespace ZChat.ViewModel
             set { Set(() => Port, ref _port, value); }
         }
 
-        public string this[string columnName]
+        protected sealed override string ValidateProperty(string columnName)
         {
-            get
+            var error = String.Empty;
+
+            switch (columnName)
             {
-                var error = String.Empty;
-                _errors.Remove(columnName);
+                case nameof(Hostname):
+                    error = ValidateHostname();
+                    break;
 
-                switch (columnName)
-                {
-                    case nameof(Hostname):
-                        error = ValidateHostname();
-                        break;
+                case nameof(Username):
+                    error = ValidateUsername();
+                    break;
 
-                    case nameof(Username):
-                        error = ValidateUsername();
-                        break;
+                case nameof(Port):
+                    error = ValidatePort();
+                    break;
 
-                    case nameof(Port):
-                        error = ValidatePort();
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                if (!String.IsNullOrEmpty(error))
-                    _errors[columnName] = error;
-
-                CheckValidState();
-
-                return error;
+                default:
+                    error = base.ValidateProperty(columnName);
+                    break;
             }
+
+            return error;
         }
 
         private string ValidatePort()
@@ -108,18 +92,5 @@ namespace ZChat.ViewModel
 
             return null;
         }
-
-        private void CheckValidState()
-        {
-            if (_previousValidationState == IsValid)
-                return;
-
-            _previousValidationState = IsValid;
-            RaisePropertyChanged(() => IsValid);
-
-            ValidStateChanged?.Invoke(this, null);
-        }
-
-        public string Error { get; }
     }
 }

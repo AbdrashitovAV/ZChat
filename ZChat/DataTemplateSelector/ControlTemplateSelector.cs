@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
-namespace WCFChat.DataTemplateSelector
+namespace ZChat.DataTemplateSelector
 {
     public class ControlTemplateSelector : System.Windows.Controls.DataTemplateSelector
     {
